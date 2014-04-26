@@ -80,6 +80,7 @@ public class Permutations<T> implements Iterable<List<T>>, Iterator<List<T>> {
 			return currentPath;
 		}
 
+		// TODO Calculate the new factorial based on the previous one (divide by aviailable.size())
 		int levelWidth = factorial( available.size() - 1);
 		int levelShift = (int) Math.floor( remainder / levelWidth );
 

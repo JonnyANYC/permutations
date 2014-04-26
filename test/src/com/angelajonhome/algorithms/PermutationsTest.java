@@ -237,13 +237,13 @@ public class PermutationsTest {
 		int count = 0;
 		for ( List<String> permutation : permutations ) { 
 			count++;
-			// Fetch only the first 8! permutations, to test that performance is acceptable and there's no OOM errors.
-			if (count == 40320 ) { 
+			// Fetch only the first 10! permutations, to test that performance is acceptable and there's no OOM errors.
+			if (count == 3628800 ) { 
 				break;
 			}
 		}
 
-		assertEquals(count, 40320); 
+		assertEquals(count, 3628800); 
 	}
 
 }
