@@ -1,4 +1,4 @@
-package com.angelajonhome.algorithms;
+package com.angelajonhome.algorithms.permutations;
 
 import static org.junit.Assert.*;
 
@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
+
+import com.angelajonhome.algorithms.permutations.Permutations;
 
 
 public class PermutationsTest {
