@@ -8,13 +8,11 @@ import java.util.List;
 public class LongPermutations<T> implements Iterator<List<T>> {
 
 	private final List<T> inputSet;
-	private final int inputSetSize;
 	private long permutationCount;
 
 	public LongPermutations( List<T> set, long permutationCount ) {
 		// TODO Filter null values and dupe values.
 		inputSet = set;
-		inputSetSize = inputSet.size();
 		this.permutationCount = permutationCount;
 	}
 
@@ -34,7 +32,7 @@ public class LongPermutations<T> implements Iterator<List<T>> {
 
 	private List<T> generateNextPermutation( long pathIndexToBuild ) {
 		
-		List<T> currentPath = new ArrayList<T>( inputSetSize );
+		List<T> currentPath = new ArrayList<T>( inputSet.size() );
 		LinkedList<T> available = new LinkedList<T>( inputSet );
 		long remainder = pathIndexToBuild;
 		long levelWidth = permutationCount;

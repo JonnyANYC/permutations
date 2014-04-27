@@ -16,13 +16,11 @@ import java.util.List;
 public class BigIntegerPermutations<T> implements Iterator<List<T>> {  
 
 	private final List<T> inputSet;
-	private final int inputSetSize;
 	private BigInteger permutationCount;
 
 	public BigIntegerPermutations( List<T> set, BigInteger permutationCount ) {
 		// TODO Filter null values and dupe values.
 		inputSet = set;
-		inputSetSize = inputSet.size();
 		this.permutationCount = permutationCount;
 	}
 
@@ -43,20 +41,24 @@ public class BigIntegerPermutations<T> implements Iterator<List<T>> {
 
 	private List<T> generateNextPermutation( BigInteger pathIndexToBuild ) {
 
-		List<T> currentPath = new ArrayList<T>( inputSetSize );
+		List<T> currentPath = new ArrayList<T>( inputSet.size() );
 		LinkedList<T> available = new LinkedList<T>( inputSet );
 		// Copy the BigInteger. This should be safe, because BigIntegers are immutable.
 		BigInteger remainder = pathIndexToBuild;
 		BigInteger levelWidth = permutationCount;
 
-		return generateNextPermutationUsingBigIntegers(	currentPathIndexBigInteger, 
+		return generateNextPermutation(	currentPathIndexBigInteger, 
 														currentPath, 
 														available, 
 														remainder, 
 														levelWidth);
 	}
-	
-	private List<T> generateNextPermutationUsingBigIntegers( BigInteger pathIndexToBuild, List<T> currentPath, LinkedList<T> available, BigInteger remainder, BigInteger levelWidth ) {
+
+	private List<T> generateNextPermutation( 	BigInteger pathIndexToBuild, 
+												List<T> currentPath, 
+												LinkedList<T> available, 
+												BigInteger remainder, 
+												BigInteger levelWidth ) {
 
 		if ( available.size() == 1 ) { 
 			// The path is complete.
@@ -71,7 +73,7 @@ public class BigIntegerPermutations<T> implements Iterator<List<T>> {
 		currentPath.add( available.remove( levelShift.intValue() ) );
 		remainder = remainder.subtract( levelShift.multiply( levelWidth ) );
 
-		return generateNextPermutationUsingBigIntegers(pathIndexToBuild, currentPath, available, remainder, levelWidth );
+		return generateNextPermutation(pathIndexToBuild, currentPath, available, remainder, levelWidth );
 	}
 
 }
