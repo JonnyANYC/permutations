@@ -1,4 +1,4 @@
-package com.angelajonhome.algorithms;
+package com.angelajonhome.algorithms.permutations;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -15,29 +15,27 @@ import java.util.Set;
  * 
  * @param <enumeration>
  */
-public class Permutations<T> implements Iterable<List<T>>, Iterator<List<T>> {  
+public class BigIntegerPermutations<T> implements Iterable<List<T>>, Iterator<List<T>> {  
 
 	private final List<T> inputSet;
 	private final int inputSetSize;
-	private long permutationCountLong;
 	private BigInteger permutationCountBigInteger;
-	private boolean useBigIntegers = true;
 
-	public Permutations( Set<T> set ) {
+	public BigIntegerPermutations( Set<T> set ) {
 		// FIXME Handle a null input set.
 		inputSet = new ArrayList<T>( set );
 		inputSetSize = inputSet.size();
 		initialize( inputSet );
 	}
 
-	public Permutations( List<T> set ) {
+	public BigIntegerPermutations( List<T> set ) {
 		// TODO Filter null values and dupe values.
 		inputSet = set;
 		inputSetSize = inputSet.size();
 		initialize( inputSet );
 	}
 
-	public Permutations( T[] enumeration ) {
+	public BigIntegerPermutations( T[] enumeration ) {
 		// FIXME Handle a null input set.
 		inputSet = new ArrayList<T>( Arrays.asList( enumeration ) );
 		inputSetSize = inputSet.size();
@@ -46,10 +44,6 @@ public class Permutations<T> implements Iterable<List<T>>, Iterator<List<T>> {
 
 	private void initialize( List<T> inputList ) { 
 		permutationCountBigInteger = factorial(inputSetSize);
-		if ( permutationCountBigInteger.compareTo( BigInteger.valueOf(Long.MAX_VALUE) ) < 0 ) {
-			useBigIntegers = false;
-			permutationCountLong = permutationCountBigInteger.longValue();
-		}
 	}
 
 	@Override
@@ -64,23 +58,14 @@ public class Permutations<T> implements Iterable<List<T>>, Iterator<List<T>> {
 	}
 
 	private BigInteger currentPathIndexBigInteger = BigInteger.valueOf( -1 );
-	private Long currentPathIndexLong = -1L;
 
 	public List<T> next() { 
-		if ( useBigIntegers ){ 
-			currentPathIndexBigInteger = currentPathIndexBigInteger.add( BigInteger.ONE );
-			return generateNextPermutation( currentPathIndexBigInteger );
-		} else { 
-			return generateNextPermutation( ++currentPathIndexLong );			
-		}
+		currentPathIndexBigInteger = currentPathIndexBigInteger.add( BigInteger.ONE );
+		return generateNextPermutation( currentPathIndexBigInteger );
 	}
 
 	public boolean hasNext() {
-		if ( useBigIntegers ) {
-			return ( currentPathIndexBigInteger.compareTo( permutationCountBigInteger.subtract(BigInteger.ONE) ) < 0 );
-		} else { 
-			return ( currentPathIndexLong <  permutationCountLong -1 );
-		}
+		return ( currentPathIndexBigInteger.compareTo( permutationCountBigInteger.subtract(BigInteger.ONE) ) < 0 );
 	}
 
 	public void remove() { 
@@ -91,34 +76,6 @@ public class Permutations<T> implements Iterable<List<T>>, Iterator<List<T>> {
 		return generateNextPermutationUsingBigIntegers(currentPathIndexBigInteger, null, null, null, null);
 	}
 	
-	private List<T> generateNextPermutation( long pathIndexToBuild ) {
-		return generateNextPermutationUsingLongs(currentPathIndexLong, null, null, -1, -1);
-	}
-
-	private List<T> generateNextPermutationUsingLongs( long pathIndexToBuild, List<T> currentPath, LinkedList<T> available, long remainder, long levelWidth ) {
-
-		if ( currentPath == null || available == null ) {
-			currentPath = new ArrayList<T>( inputSetSize );
-			available = new LinkedList<T>( inputSet );
-			remainder = pathIndexToBuild;
-			levelWidth = factorial( available.size() ).longValue();
-		}
-
-		if ( available.size() == 1 ) { 
-			// The path is complete.
-			currentPath.add( available.get(0) );
-			return currentPath;
-		}
-
-		levelWidth = levelWidth / available.size();
-		int levelShift = (int) Math.floor( remainder / levelWidth );
-
-		currentPath.add( available.remove( levelShift ) );
-		remainder = remainder - ( levelShift * levelWidth );
-
-		return generateNextPermutationUsingLongs(pathIndexToBuild, currentPath, available, remainder, levelWidth );
-	}
-
 	private List<T> generateNextPermutationUsingBigIntegers( BigInteger pathIndexToBuild, List<T> currentPath, LinkedList<T> available, BigInteger remainder, BigInteger levelWidth ) {
 
 		if ( currentPath == null || available == null ) {
