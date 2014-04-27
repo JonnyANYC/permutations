@@ -16,11 +16,11 @@ The Permutations class has two implementations of the algorithm, one of which us
 
 Performance (on my modest machine):
 
-* 4-item set: Calculates the 24 permutations (or 4!) in 1 millisecond
-* 10-item set: Calculates the 3,628,800 permutations (or 10!) in ~3.5 seconds
-* 50-item set: Calculates the first 40,320 permutations in ~150 milliseconds (out of 3e+64 possible permutations)
+* 4-item set: Calculates the 24 permutations (or "4!") in ~1 millisecond
+* 10-item set: Calculates the 3,628,800 permutations (or "10!") in ~3.6 seconds
+* 50-item set: Calculates the first 40,320 permutations in ~1.5 seconds (out of 3e+64 possible permutations)
 
-The latter example uses the BigInteger implementation, which is much slower. It's only feasible to calculate a sub-set of all permutations, because the total number is so large. Calculating all permutations for a 50-item set would take roughly 2.39e+52 years to process on my machine.
+The 50-item example uses the BigInteger implementation, which is much slower. It's only feasible to calculate a sub-set of all permutations, because the total number is so large. Calculating all 3e+64 possible permutations would take roughly 2.39e+52 years on my machine.
 
 Example usage
 -------------
@@ -39,4 +39,4 @@ Example usage
 Todo
 ----
 
-Still very raw. Minimal input-checking or handling of corner cases. Minimal unit tests.
+Still very raw. Minimal input-checking or handling of corner cases. Almost no Javadocs. Still missing some unit tests.
