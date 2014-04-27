@@ -1,52 +1,21 @@
 package com.angelajonhome.algorithms.permutations;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
-public class LongPermutations<T> implements Iterable<List<T>>, Iterator<List<T>> {
+public class LongPermutations<T> implements Iterator<List<T>> {
 
 	private final List<T> inputSet;
 	private final int inputSetSize;
 	private long permutationCount;
 
-	public LongPermutations( Set<T> set ) {
-		// FIXME Handle a null input set.
-		inputSet = new ArrayList<T>( set );
-		inputSetSize = inputSet.size();
-		initialize( inputSet );
-	}
-
-	public LongPermutations( List<T> set ) {
+	public LongPermutations( List<T> set, long permutationCount ) {
 		// TODO Filter null values and dupe values.
 		inputSet = set;
 		inputSetSize = inputSet.size();
-		initialize( inputSet );
-	}
-
-	public LongPermutations( T[] enumeration ) {
-		// FIXME Handle a null input set.
-		inputSet = new ArrayList<T>( Arrays.asList( enumeration ) );
-		inputSetSize = inputSet.size();
-		initialize( inputSet );		
-	}
-
-	private void initialize( List<T> inputList ) { 
-		permutationCount = factorial(inputSetSize);
-	}
-
-	@Override
-	public Iterator<List<T>> iterator() {		
-
-		if ( inputSet == null || !(inputSetSize > 0) ) { 
-			return new ArrayList<List<T>>().iterator();
-		}
-
-		// Return this instance as the iterator. We'll calculate the permutations one at a time.
-		return this;		
+		this.permutationCount = permutationCount;
 	}
 
 	private Long currentPathIndex = -1L;
@@ -64,18 +33,17 @@ public class LongPermutations<T> implements Iterable<List<T>>, Iterator<List<T>>
 	}
 
 	private List<T> generateNextPermutation( long pathIndexToBuild ) {
-		return generateNextPermutation(currentPathIndex, null, null, -1, -1);
+		
+		List<T> currentPath = new ArrayList<T>( inputSetSize );
+		LinkedList<T> available = new LinkedList<T>( inputSet );
+		long remainder = pathIndexToBuild;
+		long levelWidth = permutationCount;
+
+		return generateNextPermutation(currentPathIndex, currentPath, available, remainder, levelWidth);
 	}
 
 
 	private List<T> generateNextPermutation( long pathIndexToBuild, List<T> currentPath, LinkedList<T> available, long remainder, long levelWidth ) {
-
-		if ( currentPath == null || available == null ) {
-			currentPath = new ArrayList<T>( inputSetSize );
-			available = new LinkedList<T>( inputSet );
-			remainder = pathIndexToBuild;
-			levelWidth = factorial( available.size() );
-		}
 
 		if ( available.size() == 1 ) { 
 			// The path is complete.
@@ -91,14 +59,5 @@ public class LongPermutations<T> implements Iterable<List<T>>, Iterator<List<T>>
 
 		return generateNextPermutation(pathIndexToBuild, currentPath, available, remainder, levelWidth );
 	}
-
-	protected long factorial( int inputSetSize ) {
-		long result = inputSetSize;
-		for ( int i = inputSetSize -1; i > 1; i-- ) { 
-			result *= i;
-		}
-		return result;
-	}
-
 
 }
