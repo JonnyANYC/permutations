@@ -23,12 +23,12 @@ public class PermutationsTest {
 
 		BigInteger factorial = permutations.factorial( 25 );
 	
-		assertEquals(factorial, new BigInteger("15511210043330985984000000" ) );
+		assertEquals( new BigInteger("15511210043330985984000000" ), factorial );
 	}
 
 
 	@Test
-	public void setEmptyTest() {
+	public void emptySetTest() {
 		Set<String> set = new HashSet<String>(4);
 		
 		Permutations<String> permutations = new Permutations<String>( set ); 
@@ -38,13 +38,13 @@ public class PermutationsTest {
 			count++;
 		}
 
-		assertEquals(count, 0);
+		assertEquals( 0, count );
 	}
 
 	private enum fruit { APPLE, BANANA, CANTELOUPE } 
 
 	@Test
-	public void enum3Test() {
+	public void enumWith3ItemsTest() {
 		
 		Permutations<fruit> permutations = new Permutations<fruit>( fruit.values() ); 
 
@@ -53,14 +53,14 @@ public class PermutationsTest {
 			count++;
 		}
 	
-	assertEquals(count, 6);  // 3! = 6
+	assertEquals( 6, count );  // 3! = 6
 	}
 
 	
 
 
 	@Test
-	public void list4Test() {
+	public void listWith4ItemsTest() {
 		List<String> set = new ArrayList<String>(4);
 		set.add("apple");
 		set.add("banana");
@@ -75,11 +75,11 @@ public class PermutationsTest {
 			count++;
 		}
 
-		assertEquals(count, 24);  // 4! = 24
+		assertEquals( 24, count );  // 4! = 24
 	}
 
 	@Test
-	public void set4Test() {
+	public void setWith4ItemsTest() {
 		Set<String> set = new HashSet<String>(4);
 		set.add("apple");
 		set.add("banana");
@@ -93,11 +93,11 @@ public class PermutationsTest {
 			// TODO Confirm that all permutations are different, even when an unordered set is provided and the permutations are calculated on-demand.
 			count++;
 		}
-		assertEquals(count, 24);  // 4! = 24
+		assertEquals( 24, count );  // 4! = 24
 	}
 
 	@Test
-	public void list6Test() {
+	public void listWith6ItemsTest() {
 		List<String> items = new ArrayList<String>(6);
 		items.add("apple");
 		items.add("banana");
@@ -113,12 +113,12 @@ public class PermutationsTest {
 			count++;
 		}
 		
-		assertEquals(count, 720);  // 6! = 720
+		assertEquals( 720, count );  // 6! = 720
 	}
 
 
 		@Test
-		public void list8Test() {
+		public void listWith8ItemsTest() {
 			List<String> items = new ArrayList<String>(3);
 			items.add("apple");
 			items.add("banana");
@@ -136,11 +136,11 @@ public class PermutationsTest {
 				count++;
 			}
 			
-			assertEquals(count, 40320);  // 8! = 40,320
+			assertEquals( 40320, count );  // 8! = 40,320
 		}
 
 	@Test
-	public void list10Test() {
+	public void listWith10ItemsTest() {
 		List<String> items = new ArrayList<String>(3);
 		items.add("apple");
 		items.add("banana");
@@ -160,11 +160,11 @@ public class PermutationsTest {
 			count++;
 		}
 		
-		assertEquals(count, 3628800);  // 10! = 3628800
+		assertEquals( 3628800, count );  // 10! = 3628800
 	}
 
 	@Test
-	public void set10Test() {
+	public void setWith10ItemsTest() {
 		// With more than 10-12 it will probably hit an OutOfMemoryError.
 		Set<String> items = new HashSet<String>(3);
 		items.add("apple");
@@ -177,21 +177,6 @@ public class PermutationsTest {
 		items.add("lychee");
 		items.add("melon");
 		items.add("canteloupe");
-		/*
-		items.add("watermelon");
-		items.add("strawberry");
-		items.add("raspberry");
-		items.add("blueberry");
-		items.add("lemon");
-		items.add("lime");
-		items.add("blackberry");
-		items.add("grape");
-		items.add("avocado");
-		items.add("guanabana");
-		items.add("plantain");
-		items.add("coconut");
-		items.add("pineapple");
-		items.add("kiwifruit");  */
 	
 		Permutations<String> permutations = new Permutations<String>( items );
 	
@@ -200,7 +185,7 @@ public class PermutationsTest {
 			count++;
 		}
 		
-		assertEquals(count, 3628800);  // 10! = 3628800
+		assertEquals( 3628800, count );  // 10! = 3628800
 	}
 
 	@Test
@@ -214,7 +199,7 @@ public class PermutationsTest {
 	}
 
 	@Test
-	public void listPartial50Test() {
+	public void listWith50ItemsSubsetTest() {
 		List<String> items = new ArrayList<String>(50);
 		items.add("apple");
 		items.add("banana");
@@ -278,7 +263,7 @@ public class PermutationsTest {
 			}
 		}
 
-		assertEquals(40320, count); 
+		assertEquals( 40320, count ); 
 	}
 
 }
