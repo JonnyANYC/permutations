@@ -152,21 +152,6 @@ public class PermutationsTest {
 		items.add("lychee");
 		items.add("melon");
 		items.add("canteloupe");
-		/*
-		items.add("watermelon");
-		items.add("strawberry");
-		items.add("raspberry");
-		items.add("blueberry");
-		items.add("lemon");
-		items.add("lime");
-		items.add("blackberry");
-		items.add("grape");
-		items.add("avocado");
-		items.add("guanabana");
-		items.add("plantain");
-		items.add("coconut");
-		items.add("pineapple");
-		items.add("kiwifruit");  */
 
 		Permutations<String> permutations = new Permutations<String>( items );
 
@@ -287,7 +272,7 @@ public class PermutationsTest {
 		int count = 0;
 		for ( List<String> permutation : permutations ) { 
 			count++;
-			// Fetch only the first 8! permutations, to test that performance is acceptable and there's no OOM errors.
+			// Fetch only the first 8! permutations, to test that performance is workable and there are no OOM errors.
 			if (count == 40320 ) { 
 				break;
 			}

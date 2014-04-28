@@ -8,15 +8,16 @@ import java.util.List;
 
 
 /**
+ * Calculates any permutation for a given input set.
+ * The set should be large enough that its factorial doesn't fit in a long. Otherwise, LongPermutations is more efficient. 
+ * The input set actually is required to be a List, to guarantee consistent ordering and thus guarantee that all permutations are unique.
  * 
- * FIXME Split this class into Permutations and PermutationsBigInteger, ideally hiding them behind this facade.
- * 
- * @param <enumeration>
+ * @param <T> The type of items in the input set.
  */
 public class BigIntegerPermutations<T> implements Iterator<List<T>> {  
 
 	private final List<T> inputSet;
-	private BigInteger permutationCount;
+	private final BigInteger permutationCount;
 
 	public BigIntegerPermutations( List<T> set, BigInteger permutationCount ) {
 		// TODO Filter null values and dupe values.
@@ -26,39 +27,58 @@ public class BigIntegerPermutations<T> implements Iterator<List<T>> {
 
 	private BigInteger currentPathIndexBigInteger = BigInteger.valueOf( -1 );
 
+	@Override
 	public List<T> next() { 
 		currentPathIndexBigInteger = currentPathIndexBigInteger.add( BigInteger.ONE );
 		return generateNextPermutation( currentPathIndexBigInteger );
 	}
 
+	@Override
 	public boolean hasNext() {
 		return ( currentPathIndexBigInteger.compareTo( permutationCount.subtract(BigInteger.ONE) ) < 0 );
 	}
 
+	@Override
 	public void remove() { 
 		throw new UnsupportedOperationException("The Permutations class doesn't support modifications to the source set or the calculated permutations."); 
 	}
 
-	private List<T> generateNextPermutation( BigInteger pathIndexToBuild ) {
+	/** 
+	 * Start the calculation for the given permutation. Initialize the variables and then call the recursive function.
+	 * 
+	 * @param permutationIndex The zero-indexed permutation to calculate for the input set.
+	 * @return The calculated permutation.
+	 */
+	private List<T> generateNextPermutation( BigInteger permutationIndex ) {
 
 		List<T> currentPath = new ArrayList<T>( inputSet.size() );
 		LinkedList<T> available = new LinkedList<T>( inputSet );
 		// Copy the BigInteger. This should be safe, because BigIntegers are immutable.
-		BigInteger remainder = pathIndexToBuild;
-		BigInteger levelWidth = permutationCount;
+		BigInteger offset = permutationIndex;
+		BigInteger levelCost = permutationCount;
 
-		return generateNextPermutation(	currentPathIndexBigInteger, 
-														currentPath, 
-														available, 
-														remainder, 
-														levelWidth);
+		return generateNextPermutation(	currentPath, 
+										available, 
+										offset, 
+										levelCost);
 	}
 
-	private List<T> generateNextPermutation( 	BigInteger pathIndexToBuild, 
-												List<T> currentPath, 
+	/**
+	 * Recursively build the given permutation.
+	 * The recursion ends when only one item remains to be chosen.
+	 * The input set is implemented here as a LinkedList, to allow for easy removals at each level of the B-tree.
+	 * See the How_it_works document in the project for more details.
+	 * 
+	 * @param currentPath Stores the permutation as it is built.
+	 * @param available The set of items that aren't yet in the permutation that is built.
+	 * @param offset The number of elements to shift from the zero-th path. Updated at every iteration.
+	 * @param levelCost The size of the tree underneath each node. Retained to avoid re-calculating a factorial.
+	 * @return The calculated permutation, after recursion is complete.
+	 */
+	private List<T> generateNextPermutation( 	List<T> currentPath, 
 												LinkedList<T> available, 
-												BigInteger remainder, 
-												BigInteger levelWidth ) {
+												BigInteger offset, 
+												BigInteger levelCost ) {
 
 		if ( available.size() == 1 ) { 
 			// The path is complete.
@@ -66,14 +86,14 @@ public class BigIntegerPermutations<T> implements Iterator<List<T>> {
 			return currentPath;
 		}
 
-		levelWidth = levelWidth.divide( BigInteger.valueOf( available.size() ) );
+		levelCost = levelCost.divide( BigInteger.valueOf( available.size() ) );
 		// These are BigIntegers, so a division should drop any remainder.
-		BigInteger levelShift = remainder.divide( levelWidth );
+		BigInteger levelShift = offset.divide( levelCost );
 
 		currentPath.add( available.remove( levelShift.intValue() ) );
-		remainder = remainder.subtract( levelShift.multiply( levelWidth ) );
+		offset = offset.subtract( levelShift.multiply( levelCost ) );
 
-		return generateNextPermutation(pathIndexToBuild, currentPath, available, remainder, levelWidth );
+		return generateNextPermutation(currentPath, available, offset, levelCost );
 	}
 
 }

@@ -20,7 +20,7 @@ Performance (on my modest machine):
 * 10-item set: Calculates the 3,628,800 permutations (or "10!") in ~3.6 seconds
 * 50-item set: Calculates the first 40,320 permutations in ~1.5 seconds (out of 3e+64 possible permutations)
 
-The 50-item example uses the BigInteger implementation, which is much slower. It's only feasible to calculate a sub-set of all permutations, because the total number is so large. Calculating all 3e+64 possible permutations would take roughly 2.39e+52 years on my machine.
+The 50-item example uses the BigInteger implementation, which is much slower. But for a given number of calculated permutations, the time complexity increases close to linearly as the size of the input set increases. It's only feasible to calculate a sub-set of all permutations for large sets, because the total number is so large. Calculating all 3e+64 possible permutations for a 50-item set would take roughly 3.6e+52 years on my machine. That's more years than the number of atoms that comprise the earth.
 
 Example usage
 -------------
