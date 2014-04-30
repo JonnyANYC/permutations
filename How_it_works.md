@@ -1,11 +1,11 @@
 The Permutations algorithm
 ==========================
 
-The class can calculate any permutation for a given set. Permutations are zero-indexed. When the permutations are accessed via an iterator (currently the only way), then an internal index is incremented with each iteration.
+Permutations are calculated on-demand for the given set, as the iterator is traversed. Thus no data is retained from one iteration to the next, other than the input set, the index of the iteration, and the total number of permutations to calculate.
 
-To calculate a permutation, the code builds a path through the input set. The input set is viewed as a dynamic B-tree of sorts, where the nodes are the same at every level, except that one is always missing from each level. The permutation index determines which path to trace through this B-tree, and thus which item to remove at each level.
+To calculate a permutation, the code builds a path through the input set. The input set is viewed as a dynamic B-tree of sorts, where the nodes are the same at every level, except that the parent node is always missing from each child level. The algorithm uses the index of the iteration to determine which path to trace through this B-tree, and thus which item to remove at each level. For a given input list, the algorithm always calculates the same permutation for each iteration index.
 
-The code uses the index of the current permutation as an offset value. The code calculates the total number of paths below each node at each level in the B-tree. This is simply the factorial of the number of items left to choose from the set. This count is used as the "cost" of each node at a given level. The offset determines which particular node to choose. Then the offset is decremented as per that "cost", and the code moves to the next level of the B-tree.
+The code uses the index of the current permutation as an offset value. The code calculates the total number of paths below each node at each level in the B-tree. This is simply the factorial of the number of items left to choose from the set. This count is used as the "cost" of each node at a given level. The offset determines which particular node to choose. Then the offset is decremented as per that "cost", and the code moves to the next level of the B-tree. This is repeated until the permutation is complete.
 
 
 Example
