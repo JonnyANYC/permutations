@@ -10,10 +10,10 @@ import java.util.Set;
 
 
 /**
+ * Calculate the list of permutations for a given set, list, or array. 
+ * Capable of operating on relatively large sets, with near-constant memory requirements.
  * 
- * FIXME Split this class into Permutations and PermutationsBigInteger, ideally hiding them behind this facade.
- * 
- * @param <enumeration>
+ * @param <T> The type of items in the input set.
  */
 public class Permutations<T> implements Iterable<List<T>> {  
 
