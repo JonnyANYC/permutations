@@ -14,7 +14,7 @@ import java.util.List;
  * 
  * @param <T> The type of items in the input set.
  */
-public class BigIntegerPermutations<T> implements Iterator<List<T>> {  
+public class BigIntegerPermutations<T> implements Iterator<List<T>>, PermutationGenerator<T> {  
 
 	private final List<T> inputSet;
 	private final BigInteger permutationCount;
@@ -30,7 +30,7 @@ public class BigIntegerPermutations<T> implements Iterator<List<T>> {
 	@Override
 	public List<T> next() { 
 		currentPathIndexBigInteger = currentPathIndexBigInteger.add( BigInteger.ONE );
-		return generateNextPermutation( currentPathIndexBigInteger );
+		return generatePermutation( currentPathIndexBigInteger );
 	}
 
 	@Override
@@ -44,12 +44,12 @@ public class BigIntegerPermutations<T> implements Iterator<List<T>> {
 	}
 
 	/** 
-	 * Start the calculation for the given permutation. Initialize the variables and then call the recursive function.
+	 * Calculate the given permutation. Initialize the variables and then call the recursive function.
 	 * 
 	 * @param permutationIndex The zero-indexed permutation to calculate for the input set.
 	 * @return The calculated permutation.
 	 */
-	private List<T> generateNextPermutation( BigInteger permutationIndex ) {
+	public List<T> generatePermutation( BigInteger permutationIndex ) {
 
 		List<T> currentPath = new ArrayList<T>( inputSet.size() );
 		LinkedList<T> available = new LinkedList<T>( inputSet );
@@ -57,7 +57,7 @@ public class BigIntegerPermutations<T> implements Iterator<List<T>> {
 		BigInteger offset = permutationIndex;
 		BigInteger levelCost = permutationCount;
 
-		return generateNextPermutation(	currentPath, 
+		return generatePermutation(	currentPath, 
 										available, 
 										offset, 
 										levelCost);
@@ -75,7 +75,7 @@ public class BigIntegerPermutations<T> implements Iterator<List<T>> {
 	 * @param levelCost The size of the tree underneath each node. Retained to avoid re-calculating a factorial.
 	 * @return The calculated permutation, after recursion is complete.
 	 */
-	private List<T> generateNextPermutation( 	List<T> currentPath, 
+	private List<T> generatePermutation( 	List<T> currentPath, 
 												LinkedList<T> available, 
 												BigInteger offset, 
 												BigInteger levelCost ) {
@@ -93,7 +93,7 @@ public class BigIntegerPermutations<T> implements Iterator<List<T>> {
 		currentPath.add( available.remove( levelShift.intValue() ) );
 		offset = offset.subtract( levelShift.multiply( levelCost ) );
 
-		return generateNextPermutation(currentPath, available, offset, levelCost );
+		return generatePermutation(currentPath, available, offset, levelCost );
 	}
 
 }
