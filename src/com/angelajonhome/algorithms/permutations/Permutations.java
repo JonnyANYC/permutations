@@ -79,6 +79,21 @@ public class Permutations<T> implements Iterable<List<T>> {
 		return this.permutationGenerator;
 	}
 
+	/**
+	 * Exposes the getPermutation() method on the underlying PermutationGenerator. 
+	 * 
+	 * @see com.angelajonhome.algorithms.permutations.PermutationGenerator#getPermutation(BigInteger)
+	 * @param permutationIndex The zero-indexed permutation to generate. 
+	 * @return The requested permutation, as a List of elements from the input set.
+	 */
+	public List<T> getPermutation( BigInteger permutationIndex ) { 
+		if ( null == this.permutationGenerator ) { 
+			return null;
+		}
+
+		return this.permutationGenerator.getPermutation( permutationIndex );
+	}
+
 	protected BigInteger factorial( int inputSetSize ) {
 		BigInteger result = BigInteger.valueOf( inputSetSize );
 		for ( int i = inputSetSize -1; i > 1; i-- ) { 
