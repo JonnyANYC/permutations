@@ -2,7 +2,6 @@ package com.angelajonhome.algorithms.permutations;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,7 +13,7 @@ import java.util.List;
  * 
  * @param <T> The type of items in the input set.
  */
-public class BigIntegerPermutations<T> implements Iterator<List<T>> {  
+public class BigIntegerPermutations<T> implements PermutationGenerator<T> {  
 
 	private final List<T> inputSet;
 	private final BigInteger permutationCount;
@@ -25,17 +24,16 @@ public class BigIntegerPermutations<T> implements Iterator<List<T>> {
 		this.permutationCount = permutationCount;
 	}
 
-	private BigInteger currentPathIndexBigInteger = BigInteger.valueOf( -1 );
+	private BigInteger currentPathIndex = BigInteger.valueOf( -1 );
 
 	@Override
 	public List<T> next() { 
-		currentPathIndexBigInteger = currentPathIndexBigInteger.add( BigInteger.ONE );
-		return generateNextPermutation( currentPathIndexBigInteger );
+		return getPermutation( currentPathIndex.add( BigInteger.ONE ) );
 	}
 
 	@Override
 	public boolean hasNext() {
-		return ( currentPathIndexBigInteger.compareTo( permutationCount.subtract(BigInteger.ONE) ) < 0 );
+		return ( currentPathIndex.compareTo( permutationCount.subtract(BigInteger.ONE) ) < 0 );
 	}
 
 	@Override
@@ -44,27 +42,26 @@ public class BigIntegerPermutations<T> implements Iterator<List<T>> {
 	}
 
 	/** 
-	 * Start the calculation for the given permutation. Initialize the variables and then call the recursive function.
+	 * Calculate the given permutation.
+	 * Store the given permutation index, so we can use this instance as an iterator to fetch the subsequent permutations.
 	 * 
 	 * @param permutationIndex The zero-indexed permutation to calculate for the input set.
 	 * @return The calculated permutation.
 	 */
-	private List<T> generateNextPermutation( BigInteger permutationIndex ) {
+	public List<T> getPermutation( BigInteger permutationIndex ) {
 
+		this.currentPathIndex = permutationIndex;
 		List<T> currentPath = new ArrayList<T>( inputSet.size() );
 		LinkedList<T> available = new LinkedList<T>( inputSet );
 		// Copy the BigInteger. This should be safe, because BigIntegers are immutable.
 		BigInteger offset = permutationIndex;
 		BigInteger levelCost = permutationCount;
 
-		return generateNextPermutation(	currentPath, 
-										available, 
-										offset, 
-										levelCost);
+		return generatePermutation( currentPath, available, offset, levelCost);
 	}
 
 	/**
-	 * Recursively build the given permutation.
+	 * Recursively build the requested permutation.
 	 * The recursion ends when only one item remains to be chosen.
 	 * The input set is implemented here as a LinkedList, to allow for easy removals at each level of the B-tree.
 	 * See the How_it_works document in the project for more details.
@@ -75,10 +72,7 @@ public class BigIntegerPermutations<T> implements Iterator<List<T>> {
 	 * @param levelCost The size of the tree underneath each node. Retained to avoid re-calculating a factorial.
 	 * @return The calculated permutation, after recursion is complete.
 	 */
-	private List<T> generateNextPermutation( 	List<T> currentPath, 
-												LinkedList<T> available, 
-												BigInteger offset, 
-												BigInteger levelCost ) {
+	private List<T> generatePermutation( List<T> currentPath, LinkedList<T> available, BigInteger offset, BigInteger levelCost ) {
 
 		if ( available.size() == 1 ) { 
 			// The path is complete.
@@ -93,7 +87,7 @@ public class BigIntegerPermutations<T> implements Iterator<List<T>> {
 		currentPath.add( available.remove( levelShift.intValue() ) );
 		offset = offset.subtract( levelShift.multiply( levelCost ) );
 
-		return generateNextPermutation(currentPath, available, offset, levelCost );
+		return generatePermutation(currentPath, available, offset, levelCost );
 	}
 
 }

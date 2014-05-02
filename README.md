@@ -1,17 +1,19 @@
 Permutations
 ============
 
-A super-simple Java class that calculates all permutations for a given set, list, or array. It returns an Iterator of all of the permutations, allowing the class to be used in a for loop.
+A mostly academic Java class that calculates permutations for a given set, list, or array.
 
-Permutations are calculated on-demand, as the iteration is traversed. This allows the memory requirements to be nearly constant (or O(1)).
+It doesn't improve on the performance of existing implementations, such as the [Steinhaus–Johnson–Trotter algorithm](http://en.wikipedia.org/wiki/Steinhaus-Johnson-Trotter_algorithm). But it allows any specific permutation to be calculated, with repeatable results, without requiring knowledge of the previous permutation.
 
-Calculating the number of permutations of a given set size has O(n!) time complexity, simply because there are n! permutations for a set of size n. However, by keeping memory complexity constant, the Permutations class can handle relatively large input sets.
+It returns an Iterator of all of the permutations, allowing the class to be used in a for loop. Permutations are calculated on-demand, as the iteration is traversed. This allows the memory requirements to be nearly constant (or O(1)).
+
+By keeping memory complexity constant, the Permutations class can handle relatively large input sets.
 
 Taken from my Shipping Packer project, which is hosted on Bitbucket.
 
 
-Example usage
--------------
+Example usage in a loop
+----------------------------
 
     Set<String> set = new HashSet<String>(3);
     set.add("apple");

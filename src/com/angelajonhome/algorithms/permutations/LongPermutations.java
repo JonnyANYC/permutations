@@ -1,7 +1,7 @@
 package com.angelajonhome.algorithms.permutations;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @param <T> The type of items in the input set. 
  */
-public class LongPermutations<T> implements Iterator<List<T>> {
+public class LongPermutations<T> implements PermutationGenerator<T> {
 
 	private final List<T> inputSet;
 	private final long permutationCount;
@@ -27,7 +27,7 @@ public class LongPermutations<T> implements Iterator<List<T>> {
 
 	@Override
 	public List<T> next() { 
-		return generateNextPermutation( ++currentPathIndex );			
+		return generatePermutation( currentPathIndex +1 );			
 	}
 
 	@Override
@@ -40,20 +40,27 @@ public class LongPermutations<T> implements Iterator<List<T>> {
 		throw new UnsupportedOperationException("The Permutations class doesn't support modifications to the source set or the calculated permutations."); 
 	}
 
+	public List<T> getPermutation( BigInteger permutationIndex ) {
+		return generatePermutation( permutationIndex.longValue() );
+	}
+
+
 	/** 
-	 * Start the calculation for the given permutation. Initialize the variables and then call the recursive function.
+	 * Calculate the given permutation.
+	 * Store the given permutation index, so we can use this instance as an iterator to fetch the subsequent permutations.
 	 * 
 	 * @param permutationIndex The zero-indexed permutation to calculate for the input set.
 	 * @return The calculated permutation.
 	 */
-	private List<T> generateNextPermutation( long permutationIndex ) {
+	private List<T> generatePermutation( long permutationIndex ) {
 
+		this.currentPathIndex = permutationIndex;
 		List<T> currentPath = new ArrayList<T>( inputSet.size() );
 		LinkedList<T> available = new LinkedList<T>( inputSet );
 		long offset = permutationIndex;
 		long levelCost = permutationCount;
 
-		return generateNextPermutation( currentPath, available, offset, levelCost );
+		return generatePermutation( currentPath, available, offset, levelCost );
 	}
 
 
@@ -69,7 +76,7 @@ public class LongPermutations<T> implements Iterator<List<T>> {
 	 * @param levelCost The size of the tree underneath each node. Retained to avoid re-calculating a factorial.
 	 * @return The calculated permutation, after recursion is complete.
 	 */
-	private List<T> generateNextPermutation( List<T> currentPath, LinkedList<T> available, long offset, long levelCost ) {
+	private List<T> generatePermutation( List<T> currentPath, LinkedList<T> available, long offset, long levelCost ) {
 
 		if ( available.size() == 1 ) { 
 			// The path is complete.
@@ -83,7 +90,7 @@ public class LongPermutations<T> implements Iterator<List<T>> {
 		currentPath.add( available.remove( levelShift ) );
 		offset = offset - ( levelShift * levelCost );
 
-		return generateNextPermutation( currentPath, available, offset, levelCost );
+		return generatePermutation( currentPath, available, offset, levelCost );
 	}
 
 }
