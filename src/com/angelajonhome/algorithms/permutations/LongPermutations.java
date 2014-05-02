@@ -28,7 +28,7 @@ public class LongPermutations<T> implements PermutationGenerator<T> {
 
 	@Override
 	public List<T> next() { 
-		return generatePermutation( ++currentPathIndex );			
+		return generatePermutation( currentPathIndex +1 );			
 	}
 
 	@Override
@@ -41,20 +41,21 @@ public class LongPermutations<T> implements PermutationGenerator<T> {
 		throw new UnsupportedOperationException("The Permutations class doesn't support modifications to the source set or the calculated permutations."); 
 	}
 
-	public List<T> generatePermutation( BigInteger permutationIndex ) {
-
+	public List<T> getPermutation( BigInteger permutationIndex ) {
 		return generatePermutation( permutationIndex.longValue() );
 	}
 
 
 	/** 
-	 * Start the calculation for the given permutation. Initialize the variables and then call the recursive function.
+	 * Calculate the given permutation.
+	 * Store the given permutation index, so we can use this instance as an iterator to fetch the subsequent permutations.
 	 * 
 	 * @param permutationIndex The zero-indexed permutation to calculate for the input set.
 	 * @return The calculated permutation.
 	 */
 	private List<T> generatePermutation( long permutationIndex ) {
 
+		this.currentPathIndex = permutationIndex;
 		List<T> currentPath = new ArrayList<T>( inputSet.size() );
 		LinkedList<T> available = new LinkedList<T>( inputSet );
 		long offset = permutationIndex;

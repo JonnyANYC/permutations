@@ -1,7 +1,7 @@
 Permutations
 ============
 
-An experimental Java class that calculates permutations for a given set, list, or array.
+A mostly academic Java class that calculates permutations for a given set, list, or array.
 
 It doesn't improve on the performance of existing implementations, such as the [Steinhaus–Johnson–Trotter algorithm](http://en.wikipedia.org/wiki/Steinhaus-Johnson-Trotter_algorithm). But it allows any specific permutation to be calculated, with repeatable results, without requiring knowledge of the previous permutation.
 

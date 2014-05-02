@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -145,23 +146,28 @@ public class PermutationsTest {
 	}
 
 	@Test
-	@SuppressWarnings("unused")
 	public void listWith6ItemsTest() {
 		List<String> items = new ArrayList<String>(6);
 		items.add("apple");
 		items.add("banana");
-		items.add("mango");
-		items.add("pear");
-		items.add("orange");
 		items.add("cherry");
+		items.add("mango");
+		items.add("orange");
+		items.add("pear");
 
 		Permutations<String> permutations = new Permutations<String>( items );
 
+		List<String> actualPermutation = null;
 		int count = 0;
 		for ( List<String> permutation : permutations ) { 
+			if ( count == 350 ) { 
+				actualPermutation = permutation;
+			}
 			count++;
 		}
-		
+
+		String[] testPermutation = { "cherry", "pear", "mango", "banana", "apple", "orange" };
+		assertEquals( Arrays.asList( testPermutation ), actualPermutation );
 		assertEquals( 720, count );  // 6! = 720
 	}
 
