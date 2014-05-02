@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @param <T> The type of items in the input set. 
  */
-public class LongPermutations<T> implements Iterator<List<T>>, PermutationGenerator<T> {
+public class LongPermutations<T> implements PermutationGenerator<T> {
 
 	private final List<T> inputSet;
 	private final long permutationCount;

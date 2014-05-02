@@ -28,6 +28,52 @@ public class PermutationsTest {
 
 
 	@Test
+	@SuppressWarnings("unused")
+	public void nullSetTest() {
+		Set<String> set = null;
+		
+		Permutations<String> permutations = new Permutations<String>( set ); 
+
+		int count = 0;
+		for ( List<String> permutation : permutations ) { 
+			count++;
+		}
+
+		assertEquals( 0, count );
+	}
+
+	@Test
+	@SuppressWarnings("unused")
+	public void nullListTest() {
+		List<String> set = null;
+		
+		Permutations<String> permutations = new Permutations<String>( set ); 
+
+		int count = 0;
+		for ( List<String> permutation : permutations ) { 
+			count++;
+		}
+
+		assertEquals( 0, count );
+	}
+
+	@Test
+	@SuppressWarnings("unused")
+	public void nullArrayTest() {
+		String[] set = null;
+		
+		Permutations<String> permutations = new Permutations<String>( set ); 
+
+		int count = 0;
+		for ( List<String> permutation : permutations ) { 
+			count++;
+		}
+
+		assertEquals( 0, count );
+	}
+
+	@Test
+	@SuppressWarnings("unused")
 	public void emptySetTest() {
 		Set<String> set = new HashSet<String>(4);
 		
@@ -41,9 +87,11 @@ public class PermutationsTest {
 		assertEquals( 0, count );
 	}
 
+	
 	private enum fruit { APPLE, BANANA, CANTELOUPE } 
 
 	@Test
+	@SuppressWarnings("unused")
 	public void enumWith3ItemsTest() {
 		
 		Permutations<fruit> permutations = new Permutations<fruit>( fruit.values() ); 
@@ -56,10 +104,9 @@ public class PermutationsTest {
 	assertEquals( 6, count );  // 3! = 6
 	}
 
-	
-
 
 	@Test
+	@SuppressWarnings("unused")
 	public void listWith4ItemsTest() {
 		List<String> set = new ArrayList<String>(4);
 		set.add("apple");
@@ -79,6 +126,7 @@ public class PermutationsTest {
 	}
 
 	@Test
+	@SuppressWarnings("unused")
 	public void setWith4ItemsTest() {
 		Set<String> set = new HashSet<String>(4);
 		set.add("apple");
@@ -97,6 +145,7 @@ public class PermutationsTest {
 	}
 
 	@Test
+	@SuppressWarnings("unused")
 	public void listWith6ItemsTest() {
 		List<String> items = new ArrayList<String>(6);
 		items.add("apple");
@@ -118,6 +167,7 @@ public class PermutationsTest {
 
 
 		@Test
+		@SuppressWarnings("unused")
 		public void listWith8ItemsTest() {
 			List<String> items = new ArrayList<String>(3);
 			items.add("apple");
@@ -140,6 +190,7 @@ public class PermutationsTest {
 		}
 
 	@Test
+	@SuppressWarnings("unused")
 	public void listWith10ItemsTest() {
 		List<String> items = new ArrayList<String>(3);
 		items.add("apple");
@@ -164,6 +215,7 @@ public class PermutationsTest {
 	}
 
 	@Test
+	@SuppressWarnings("unused")
 	public void setWith10ItemsTest() {
 		// With more than 10-12 it will probably hit an OutOfMemoryError.
 		Set<String> items = new HashSet<String>(3);
@@ -199,6 +251,7 @@ public class PermutationsTest {
 	}
 
 	@Test
+	@SuppressWarnings("unused")
 	public void listWith50ItemsSubsetTest() {
 		List<String> items = new ArrayList<String>(50);
 		items.add("apple");
